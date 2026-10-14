@@ -34,13 +34,25 @@ pnpm test && pnpm typecheck
 
 It holds no keys and has no way to sign. Changing what it watches is a commit to this repo.
 
+## Treatment finder
+
+`/find`. Search by ZIP code, type of care, payment and distance. Listings come from SAMHSA's
+FindTreatment.gov locator API (`lib/finder.ts`); ZIP codes are located with the Census 2024 ZCTA
+gazetteer (`data/zip-centroids.json`, public domain). Searches are POSTed, so nothing lands in a
+URL or a request log, and nothing is stored. Results are ordered by distance only.
+
+The Guide (`lib/guide.ts`) turns a person's own words into those filters with one Claude call. A
+deterministic check (`lib/crisis.ts`) runs first: crisis language shows 911, 988 and the SAMHSA
+helpline and never reaches the model. The Guide keeps no memory and gives no medical advice.
+
 ## Deploy (Vercel)
 
 1. Create a Postgres database (Neon via the Vercel Marketplace) and run `pnpm db:migrate` with
    the owner URL.
 2. Create the roles `rewire_web` and `rewire_sentinel`, then `psql "$DATABASE_URL" -f db/roles.sql`.
    Run it again after every migration.
-3. Set `WEB_DATABASE_URL`, `SENTINEL_DATABASE_URL`, `RPC_URL` and `CRON_SECRET` (see
+3. Set `WEB_DATABASE_URL`, `SENTINEL_DATABASE_URL`, `RPC_URL`, `CRON_SECRET` and
+   `ANTHROPIC_API_KEY` (see
    `.env.example`). Vercel Cron calls `/api/cron` daily (`vercel.json`).
 
 ## License

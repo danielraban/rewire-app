@@ -1,4 +1,4 @@
-import { CRISIS, EXPLAINED, MINT, TREASURY } from "@/lib/config";
+import { EXPLAINED, MINT, TREASURY } from "@/lib/config";
 import { overview, type Overview } from "@/lib/data";
 import { lamportsToSol } from "@/lib/sentinel";
 
@@ -20,14 +20,6 @@ export default async function Home() {
 
   return (
     <>
-      <div className="crisis">
-        <div className="wrap">
-          In crisis? Call or text <a href={`tel:${CRISIS.call}`}>{CRISIS.call}</a>. Free,
-          confidential treatment referral, 24/7:{" "}
-          <a href={`tel:${CRISIS.samhsa}`}>{CRISIS.samhsa}</a> (SAMHSA).
-        </div>
-      </div>
-
       <main className="wrap">
         <header>
           <h1>Trading fees that fund recovery.</h1>
@@ -36,6 +28,9 @@ export default async function Home() {
             of collected fees is reserved for grants to verified drug and alcohol treatment
             providers; 10% pays for running this. Every movement is indexed, reconciled and
             published below by a read-only agent that cannot move funds.
+          </p>
+          <p>
+            <a href="/find">Looking for treatment? Search free, no account needed.</a>
           </p>
 
           {data ? (
